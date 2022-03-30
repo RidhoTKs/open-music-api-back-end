@@ -83,7 +83,7 @@ class AlbumHandler {
   async putAlbumByIdHandler(request, h) {
     try {
       this._validate.validateAlbumPayload(request.payload);
-      const { id } = request.payload;
+      const { id } = request.params;
       const { name, year } = request.payload;
       this._service.editAlbumById(id, { name, year });
       return ({
