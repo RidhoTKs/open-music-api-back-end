@@ -49,9 +49,9 @@ class AlbumService {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
-      throw new NotFoundError('Lagu kosong, Id Album tidak ditemukan');
-    }
+    // if (!result.rows.length) {
+    //   throw new NotFoundError('Lagu kosong, Id Album tidak ditemukan');
+    // }
 
     return result.rows.map(mapGetSongs);
   }

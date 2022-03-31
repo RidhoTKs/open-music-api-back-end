@@ -80,7 +80,8 @@ class SongsHandler {
     } else if (title !== undefined) {
       songs = songs.filter((value) => value.title.toUpperCase().includes(title.toUpperCase()));
     } else if (performer !== undefined) {
-      songs = songs.filter((value) => value.title.toUpperCase().includes(title.toUpperCase()));
+      songs = songs.filter((value) => value.performer.toUpperCase()
+        .includes(performer.toUpperCase()));
     }
 
     return ({
@@ -109,6 +110,7 @@ class SongsHandler {
           message: error.message,
         });
         response.code(error.statusCode);
+        return response;
       }
 
       // server error
@@ -135,7 +137,7 @@ class SongsHandler {
         albumId,
       } = request.payload;
 
-      this._service.editSongById(id, {
+      await this._service.editSongById(id, {
         title,
         year,
         genre,
@@ -154,6 +156,7 @@ class SongsHandler {
           message: error.message,
         });
         response.code(error.statusCode);
+        return response;
       }
 
       // Server ERROR!

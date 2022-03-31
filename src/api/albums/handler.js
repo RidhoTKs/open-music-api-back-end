@@ -59,12 +59,14 @@ class AlbumHandler {
         album.songs = songsOnAlbum;
       }
 
-      return ({
+      const response = h.response({
         status: 'success',
         data: {
           album,
         },
       });
+      response.code(200);
+      return response;
     } catch (error) {
       if (error instanceof ClientError) {
         const response = h.response({
@@ -91,7 +93,7 @@ class AlbumHandler {
       this._validate.validateAlbumPayload(request.payload);
       const { id } = request.params;
       const { name, year } = request.payload;
-      this._service.editAlbumById(id, { name, year });
+      await this._service.editAlbumById(id, { name, year });
       return ({
         status: 'success',
         message: 'Album berhasil diperbarui',
