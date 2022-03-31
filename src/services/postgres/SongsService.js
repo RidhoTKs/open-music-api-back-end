@@ -38,23 +38,8 @@ class SongService {
     return result.rows[0].id;
   }
 
-  async getSongs(title = undefined, performer = undefined) {
-    const query = {
-      text: 'SELECT * FROM songs',
-    };
-
-    if (title !== undefined && performer !== undefined) {
-      query.text = 'SELECT * FROM songs WHERE title=$1 AND performer=$2';
-      query.values = [title, performer];
-    } else if (title !== undefined) {
-      query.text = 'SELECT * FROM songs WHERE title=$1';
-      query.values = [title];
-    } else if (performer !== undefined) {
-      query.text = 'SELECT * FROM songs WHERE performer=$1';
-      query.values = [performer];
-    }
-
-    const songs = await this._pool.query(query);
+  async getSongs() {
+    const songs = await this._pool.query('SELECT * FROM songs');
     return songs.rows.map(mapGetSongs);
   }
 

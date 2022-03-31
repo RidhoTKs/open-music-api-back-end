@@ -42,7 +42,9 @@ class SongsHandler {
           songId,
         },
       });
+
       response.code(201);
+
       return response;
     } catch (error) {
       // cek apakah error berasal dari turunan ClientError
@@ -60,15 +62,27 @@ class SongsHandler {
         status: 'error',
         message: 'Maaf terjadi kegagalan pada server kami',
       });
+
       response.code(500);
       console.error(error);
+
       return response;
     }
   }
 
   async getSongsHandler(request) {
     const { title, performer } = request.query;
-    const songs = await this._service.getSongs(title, performer);
+    let songs = await this._service.getSongs();
+
+    if (title !== undefined && performer !== undefined) {
+      songs = songs.filter((value) => value.title.toUpperCase().includes(title.toUpperCase())
+      && value.performer.toUpperCase().includes(performer.toUpperCase()));
+    } else if (title !== undefined) {
+      songs = songs.filter((value) => value.title.toUpperCase().includes(title.toUpperCase()));
+    } else if (performer !== undefined) {
+      songs = songs.filter((value) => value.title.toUpperCase().includes(title.toUpperCase()));
+    }
+
     return ({
       status: 'success',
       data: {
